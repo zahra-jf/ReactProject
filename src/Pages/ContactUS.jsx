@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 import SectionTitle from "../Components/Common/SectionTitle";
 import InputField from "../Components/Templates/ContactUS/InputField";
 
@@ -12,6 +13,8 @@ const ContactUSPage = () => {
     subject: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const changeHandler = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -19,22 +22,33 @@ const ContactUSPage = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    console.log("Send Content");
+    setIsSubmitting(true);
 
-    try {
-      const res = await axios.post(
-        "https://shopino.iran.liara.run/v1/contact-us",
-        form,
-      );
+    const response = axios.post(
+      "https://shopino.iran.liara.run/v1/contact-us",
+      form,
+    );
 
-      if (res.data.status === 201) {
-        alert("پیام شما با موفقیت ارسال شد");
-      }
+    toast.promise(response, {
+      loading: "در حال ارسال پیام",
+      success: () => {
+        setForm({
+          name: "",
+          phone: "",
+          content: "",
+          subject: "",
+        });
 
-      console.log(res);
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
+        setIsSubmitting(false);
+
+        return "پیام شما با موفقیت ارسال شد";
+      },
+
+      error: (error) => {
+        setIsSubmitting(false);
+        return error.response?.data?.message || "ارسال پیام با شکست مواجه شد";
+      },
+    });
   };
 
   return (
@@ -104,10 +118,13 @@ const ContactUSPage = () => {
             </Link>
 
             <button
-              className=" bg-linear-to-t from-blue-600 px-4 py-2.5 rounded-md text-white cursor-pointer hover:opacity-90 focus-within:ring-4 ring-sky-300/50 ring-offset-2 duration-150 to-blue-400 max-w-max"
+              className={`bg-linear-to-t from-blue-600 px-4 py-2.5 rounded-md text-white cursor-pointer hover:opacity-90 focus-within:ring-4 ring-sky-300/50 ring-offset-2 duration-150 to-blue-400 max-w-max ${
+                isSubmitting ? "opacity-50 cursor-not-allowed" : null
+              }`}
               onClick={submitHandler}
+              disabled={isSubmitting}
             >
-              ثبت و ارسال
+              {isSubmitting ? "در حال ارسال..." : "ثبت و ارسال"}
             </button>
           </div>
         </div>
