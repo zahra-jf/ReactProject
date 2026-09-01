@@ -4,6 +4,8 @@ import { Link } from "react-router";
 import { toast } from "sonner";
 import SectionTitle from "../Components/Common/SectionTitle";
 import InputField from "../Components/Templates/ContactUS/InputField";
+import { contactUsSchema } from "../validators/contactus";
+import { validate } from "../validators/index";
 
 const ContactUSPage = () => {
   const [form, setForm] = useState({
@@ -21,6 +23,9 @@ const ContactUSPage = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if(!validate(contactUsSchema, form)) return;
+   
 
     setIsSubmitting(true);
 
@@ -72,7 +77,7 @@ const ContactUSPage = () => {
               value={form.name}
               onChange={changeHandler}
               name="name"
-              placeholder="مثال: امین سعیدی"
+              placeholder="مثال: زهرا جعفری"
               label="نام و نام خانوادگی"
             />
 
