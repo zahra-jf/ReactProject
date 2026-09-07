@@ -8,12 +8,13 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 const AboutUSPage = () => {
   return (
-    <main id="about-us" className="container my-10">
+    <main id="about-us" className="container my-10 ">
       <SectionTitle text="ما کی هستیم؟" description={LOREM_TEXT} />
-      <div className="w-full mt-10 gap-10 grid grid-cols-2">
+      <div className="w-full mt-10 gap-10 grid grid-cols-1 md:grid-cols-2">
         <Accordion options={aboutUsData} />
         <div>
-          <img src="/assets/static/about-us.png" />
+          <img src="/assets/static/about-us.png"
+           className="w-full h-auto" />
         </div>
       </div>
       <div className="my-14">
@@ -26,7 +27,7 @@ const AboutUSPage = () => {
           >
             از طریق این صفحه
           </Link>
-          با ما تماس بگیرید و سوال خود را از تیم فنی شاپینو بپرسید !
+          با ما تماس بگیرید و سوال خود را از تیم فنی دارچین شاپ بپرسید !
         </p>
 
         <Link

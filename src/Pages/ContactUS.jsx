@@ -12,7 +12,7 @@ const ContactUSPage = () => {
   });
 
   return (
-    <main className="my-20 container" id="contact-us">
+    <main className="my-10 md:my-20 container" id="contact-us">
       <SectionTitle
         text="با ما تماس بگیرید"
         description="از طریق فرم زیر با ما تماس بگیرید و تیم فنی شاپینو در اسرع وقت به راهنمایی شما پاسخ خواهند داد."
@@ -20,14 +20,14 @@ const ContactUSPage = () => {
 
       <div
         id="contact-area"
-        className="grid grid-cols-2 gap-10 p-5 border rounded-3xl border-neutral-300 mt-10"
+        className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 p-4 md:p-5 border rounded-3xl border-neutral-300 mt-10"
       >
         <div className="w-full">
-          <p className="mb-10 text-sm text-neutral-600">
+          <p className="mb-8 md:mb-10 text-sm text-neutral-600">
             کاربر محترم, برای پاسخگویی بهتر لطفا تمامی فیلد های زیر را تکمیل
             کنید.
           </p>
-          <div className="grid grid-cols-2 gap-5 **:w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 **:w-full">
             <InputField
               value={form.name}
               onChange={changeHandler}
@@ -50,11 +50,11 @@ const ContactUSPage = () => {
               name="subject"
               type="text"
               placeholder="مثال: مرجوع کردن محصول"
-              fullWidth
+              // fullWidth
               label="موضوع شما"
             />
 
-            <div className="col-span-2">
+            <div className="md:col-span-2">
               <label
                 htmlFor="contact-message"
                 className="text-xs select-none text-neutral-500"
@@ -72,7 +72,7 @@ const ContactUSPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center text-sm mt-10 justify-end gap-3">
+          <div className="flex items-center text-sm mt-8 md:mt-10 justify-end gap-3">
             <Link to="/" className="text-red-600 px-4 underline cursor-pointer">
               انصراف
             </Link>
