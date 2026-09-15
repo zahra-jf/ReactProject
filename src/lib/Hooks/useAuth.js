@@ -4,12 +4,14 @@ import { toast } from "sonner";
 import * as authService from "./../../services/auth.service";
 import { sendOtpSchema, verifyOtpSchema } from "./../../validators/auth";
 import { validate } from "./../../validators/index";
+import useCountdown  from "./useCountdown"
 
 export const useAuth = () => {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [isSentOtp, setIsSentOtp] = useState(false);
   const navigate = useNavigate();
+  const { isExpired, restart, getFormattedTime, } = useCountdown(10)
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -27,6 +29,15 @@ export const useAuth = () => {
     console.log("[SendOtp]", data);
 
     setIsSentOtp(true);
+
+    restart();
+  };
+
+  const resendOtp = async () => {
+    const data = await authService.sendOtp(phone);
+    console.log("[reSendOtp]", data);
+    restart();
+    toast.success("کد جدید ارسال شد")
   };
 
   const verifyOtp = async () => {
@@ -69,8 +80,12 @@ export const useAuth = () => {
     phone,
     otp,
     isSentOtp,
+    getFormattedTime,
+    isExpired,
     handlePhoneChange,
     handleOtpChange,
     handleSubmit,
+    resendOtp,
+    
   };
 };
