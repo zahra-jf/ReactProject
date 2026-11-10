@@ -12,6 +12,8 @@ import { redirect } from "react-router";
 import AppLayout from "../Components/Layouts/AppLayout.jsx";
 import AuthLayout from "../Components/Layouts/AuthLayout.jsx";
 import CMSLayout from "../Components/Layouts/CMSLayout.jsx";
+import Forbidden from "../Pages/Forbidden.jsx";
+import * as AuthService from "./../services/auth.service.js";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,8 @@ const router = createBrowserRouter([
         element: <AuthLayout />,
         children: [{ index: true, element: <AuthPage /> }],
       },
+
+      { path: "forbidden", element: <Forbidden /> },
     ],
   },
 
@@ -39,6 +43,20 @@ const router = createBrowserRouter([
     children: [
       {
         path: "moderator",
+        loader: async () => {
+          try {
+            const { data } = await AuthService.getMe();
+
+            if (!data.user.roles.includes("ADMIN")) {
+              return redirect("/forbidden");
+            }
+
+            return data.user;
+          } catch (err) {
+            return redirect("/auth");
+          }
+        },
+
         children: [
           { index: true, loader: () => redirect("home") },
           { path: "home", element: <div>Home Page</div> },
