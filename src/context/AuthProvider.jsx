@@ -24,8 +24,18 @@ const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
 
-  const logout = () => {
-    // Codes
+  const logout = async () => {
+    try {
+      setIsLoading(true);
+      const response = await AuthService.logout();
+
+      console.log(response);
+    } catch (err) {
+      console.log(`[Logout] ->`, err);
+    } finally {
+      setUser(null);
+      setIsLoading(false);
+    }
   };
 
   const refreshUser = async () => {
@@ -35,6 +45,7 @@ const AuthProvider = ({ children }) => {
   const value = {
     user,
     isLoading,
+    logout,
     refreshUser,
   };
 
